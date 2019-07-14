@@ -31,7 +31,7 @@ Graded project to set up a linux web server
     app.run(host='0.0.0.0', port=8000)
 ```
 
-* Replaced SQLite database connection lines of code via SQLAlchemy to postgres database, passing in username and password for _www-data_ user
+* Replaced SQLite database connection lines of code via SQLAlchemy to postgres database, passing in username and password for _www-data_ user.  Affected files were _application.py_, _db_setup.py_ and _lotsofteams.py_
 ```
 engine = create_engine('postgresql://www-data:wwwdata2019@localhost/league')
 ```
