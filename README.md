@@ -18,10 +18,7 @@ Graded project to set up a linux web server
 #### Summary Of Configurations Made
 ##### postgreSQL Configuration
 * With the aim of replacing SQLite database in project 2 catalog application, logged onto postgres as user _postgres_
-```
-sudo -u postgres psql
-
-* Created a database called _league_ and a user called _www-data_, the default apache user, and granted all privileges on all database tables to this user.  No password was specified as the only connections to postgreSQL would be from localhost.  I confirmed this by checking pg_hba.conf file
+* Created a database called _league_ and a user called _www-data_, the default apache user,  with password, and granted all privileges on all database tables in the _league_ database to this user.
 
 ##### Serve web application _catalog_ created for project 2
  * Cloned repo https://github.com/colm29/catalog to /var/www/catalog (changed directory owner to ubuntu (default instance login) in order to clone to here)
@@ -32,15 +29,21 @@ sudo -u postgres psql
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
+```
 
- * In this directory created _catalog.wsgi_ to specify the application path,flask application name and specific file location
+* Replaced SQLite database connection lines of code via SQLAlchemy to postgres database, passing in username and password for _www-data_ user
+```
+engine = create_engine('postgresql://www-data:wwwdata2019@localhost/league')
+```
+* In this directory created _catalog.wsgi_ to specify the application path,flask application name and specific file location
  ```
  import sys
  sys.path.insert(0,'/var/www/catalog')
 from application import app as application
+```
 
- * Changed owner of /etc/apache2 to ubuntu in order to edit config file
- * Created /etc/apache2/sites-available/catalog.conf:
+* Changed owner of /etc/apache2 to ubuntu in order to edit config file
+* Created /etc/apache2/sites-available/catalog.conf:
 ```<VirtualHost *>
 Servername example.com
 WSGIScriptAlias / /var/www/catalog/catalog.wsgi
@@ -52,7 +55,7 @@ Order deny,allow
 Allow from all
 </Directory>
 </VirtualHost>
-
+```
 * Disabled the default apache site, enabled my application's site and reloaded the apache service
 ```
 sudo a2dissite 000-default.conf
