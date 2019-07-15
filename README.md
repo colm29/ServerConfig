@@ -62,11 +62,16 @@ sudo ufw status
  * Cloned repo https://github.com/colm29/catalog to /var/www/catalog (changed directory owner to ubuntu (default instance login) in order to clone to here)
  * Created _fb_clientsecrets.json_ and changed any references to this file in the _application.py_ file to absolute path where previously it was relative
  * Moved assignment of _app.secret_key_ to main code block as it was previously in the following block, where the condition would not be met in production:
- ```
+ ```python
  if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
+```
+Secret key is now generated as follows:
+```python
+import os
+app.secret_key = os.urandom(16)
 ```
 
 * Replaced SQLite database connection lines of code via SQLAlchemy to postgres database, passing in username and password for _www-data_ user.  Affected files were _application.py_, _db_setup.py_ and _lotsofteams.py_
@@ -75,7 +80,7 @@ engine = create_engine('postgresql://www-data:wwwdata2019@localhost/league')
 ```
 * Ran _db_setup.py_ followed by _lotsofteams.py_ to create and then populate database
 * In this application directory, _/var/www/catalog_, created _catalog.wsgi_ to specify the application path,flask application name and specific file location
- ```
+ ```python
  import sys
  sys.path.insert(0,'/var/www/catalog')
 from application import app as application
@@ -100,3 +105,16 @@ Allow from all
 sudo a2dissite 000-default.conf
 sudo a2ensite myApp.conf
 sudo service apache2 reload
+
+##### 3rd Party Resources Used
+* Official Flask docs, inc. _mod_wsgi, secret_key, packages_
+  * https://flask.palletsprojects.com/en/1.0.x/
+* Web App Deployment articles
+  * https://umar-yusuf.blogspot.com/2018/02/deploying-python-flask-web-app-on.html
+  * https://www.matthealy.com.au/blog/post/deploying-flask-to-amazon-web-services-ec2/
+* Official Python, postgreSQL, Apache, Lightsail docs
+* Stack Overflow and mediatemple
+  * https://mediatemple.net/community/products/dv/204643810/how-do-i-disable-ssh-login-for-the-root-user
+* Postgreguide.com and medium.com for user setup
+  * http://postgresguide.com/setup/users.html
+  * https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e
