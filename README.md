@@ -113,6 +113,7 @@ sudo service apache2 reload
 * Web App Deployment articles
   * https://umar-yusuf.blogspot.com/2018/02/deploying-python-flask-web-app-on.html
   * https://www.matthealy.com.au/blog/post/deploying-flask-to-amazon-web-services-ec2/
+  * https://www.jakowicz.com/flask-apache-wsgi/
 * Official Python, postgreSQL, Apache, Lightsail docs
 * Stack Overflow and mediatemple
   * https://mediatemple.net/community/products/dv/204643810/how-do-i-disable-ssh-login-for-the-root-user
