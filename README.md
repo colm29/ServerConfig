@@ -32,7 +32,10 @@ sudo nano /etc/ssh/sshd_config
 ```
 * In this file changed _#PermitRootLogin prohibit-password_ to _#PermitRootLogin no_
 * Also checked password authentication is set to _no_ here to ensure RSA key based authentication.  This was the case and seems to be the AWS Lightsail default.  Specifically parameters _PasswordAuthentication_ and _ChallengeResponseAuthentication_
-* Changed Port from 22 to 2200 in sshd_config.  Also added _Custom_ Port 2200 to AWS firewall to accept connections
+* Changed Port from 22 to 2200 in sshd_config.  Also added _Custom_ Port 2200 to AWS firewall to accept connections. Then ran:
+```
+sudo service sshd reload
+````
 
 ##### Firewall Activation
 * Added added _Custom_ Port 123 to AWS firewall to accept NTP connections
@@ -43,15 +46,13 @@ sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow 2200/tcp
 sudo ufw allow www
-sudo ufw allow 2200/tcp
+sudo ufw allow 123/udp
 sudo ufw enable
 sudo ufw status
 ```
+* Originally mistakenly added port 123 as TCP but then added UDP port and denied TCP port 123.  This is visible in rules
+
 * Deleted Port 22 from AWS Lightsail Firewall open connections
-
-
-
-
 
 ##### postgreSQL Configuration
 * With the aim of replacing SQLite database in project 2 catalog application, logged onto postgres as user _postgres_
