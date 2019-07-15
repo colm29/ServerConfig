@@ -105,6 +105,7 @@ Allow from all
 sudo a2dissite 000-default.conf
 sudo a2ensite myApp.conf
 sudo service apache2 reload
+```
 
 ##### 3rd Party Resources Used
 * Official Flask docs, inc. _mod_wsgi, secret_key, packages_
