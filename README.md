@@ -75,7 +75,7 @@ app.secret_key = os.urandom(16)
 ```
 
 * Replaced SQLite database connection lines of code via SQLAlchemy to postgres database, passing in username and password for _www-data_ user.  Affected files were _application.py_, _db_setup.py_ and _lotsofteams.py_
-```
+```python
 engine = create_engine('postgresql://www-data:wwwdata2019@localhost/league')
 ```
 * Ran _db_setup.py_ followed by _lotsofteams.py_ to create and then populate database
